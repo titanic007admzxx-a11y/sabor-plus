@@ -1,0 +1,21 @@
+# Configuração do SABOR+ no Render (https://render.com)
+# Sem variáveis obrigatórias: o primeiro cadastro no site vira administrador.
+# Plano "starter" é necessário para o disco persistente (banco de dados).
+services:
+  - type: web
+    name: sabor-plus
+    runtime: node
+    plan: starter
+    region: oregon
+    buildCommand: npm install --omit=dev || true
+    startCommand: node server.js
+    healthCheckPath: /api/categories
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: SABOR_DATA
+        value: /var/data
+    disk:
+      name: sabor-data
+      mountPath: /var/data
+      sizeGB: 1

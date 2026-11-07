@@ -1,0 +1,14 @@
+{
+  "name": "sabor-plus",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SABOR+ — aplicativo de receitas culinárias (web responsivo, instalável no celular).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/smoke.test.js"
+  },
+  "engines": {
+    "node": ">=22.5"
+  }
+}
