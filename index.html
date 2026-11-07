@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="SABOR+ — encontre receitas, aprenda a cozinhar, salve suas favoritas e descubra novos pratos.">
   <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#F97316">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="SABOR+">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>SABOR+ · Receitas</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
@@ -37,5 +43,31 @@
   <div class="modal-root" id="modalRoot"></div>
 
   <script src="/app.js" defer></script>
+  <script>
+    // Modo offline: registra o service worker (quando suportado).
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').catch(function () {});
+      });
+    }
+    // Aviso discreto quando o celular está sem internet.
+    (function () {
+      var banner = null;
+      function render() {
+        if (!banner) {
+          banner = document.createElement('div');
+          banner.setAttribute('role', 'status');
+          banner.style.cssText = 'position:fixed;left:0;right:0;bottom:0;z-index:999;background:#1f2937;color:#fff;' +
+            'font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;padding:10px 16px;text-align:center;';
+          banner.textContent = 'Sem internet: você está vendo as receitas salvas no celular. Favoritar, avaliar e comentar precisam de conexão.';
+          document.body.appendChild(banner);
+        }
+        banner.style.display = navigator.onLine ? 'none' : 'block';
+      }
+      window.addEventListener('online', render);
+      window.addEventListener('offline', render);
+      window.addEventListener('DOMContentLoaded', render);
+    })();
+  </script>
 </body>
-</html>
+  </html>
